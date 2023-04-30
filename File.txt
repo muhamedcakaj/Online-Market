@@ -1,0 +1,4 @@
+default,Audi A3,8000,The audi,It is available with Automatic transmission the A3 is a 5 seater 4 cylinder car.
+default,BMW M5,10000,The audi,The M5 is a 5 seater 8 cylinder car and has length of 4983mm, width of 2126mm and a wheelbase of 2982mm.
+default,Samsung TV,800,Samsung SMART TV is a television set with integrated Internet capabilities that offers more advanced computing ability
+default,Playstation 5,600,The PlayStation 5 is powered by a custom system on a chip (SoC) designed in tandem by AMD and Sony

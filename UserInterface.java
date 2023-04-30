@@ -1,13 +1,31 @@
 import java.util.Scanner;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class UserInterface {
     private Scanner scan;
     private ArrayList<User> user;
+    private ArrayList<Products> products;
 
     public UserInterface(Scanner scan) {
         this.scan = scan;
         this.user = new ArrayList<>();
+    }
+
+    public void importProductsFromFile() {
+        try (Scanner scan = new Scanner(Paths.get("File.txt"))) {
+            while (scan.hasNextLine()) {
+                String file = scan.nextLine();
+
+                String[] parts = file.split(",");
+
+                int price = Integer.valueOf(parts[2]);
+
+                this.products.add(new Products(parts[0], parts[1], price, parts[3]));
+            }
+        } catch (Exception e) {
+            System.out.println("Error :" + e.getMessage());
+        }
     }
 
     public void start() {
@@ -36,7 +54,8 @@ public class UserInterface {
 
     public void logIn(int userIndex) {
         while (true) {
-            System.out.println("\t\tWelcome " + this.user.get(userIndex).getName() + "\n7.Exit");
+            System.out.println("\t\tWelcome " + this.user.get(userIndex).getName());
+            System.out.println("->1.Products on Sale\n->2.Search For Products->7.Exit");
             int choice = Integer.valueOf(this.scan.nextLine());
             if (choice == 7) {
                 break;

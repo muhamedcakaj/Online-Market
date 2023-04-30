@@ -11,6 +11,10 @@ public class Products {
         this.productDescribe = productDescribe;
     }
 
+    public String getProductName() {
+        return this.productName;
+    }
+
     public String toString() {
         return "Owner: " + this.owner
                 + "\nProduct: " + this.productName
