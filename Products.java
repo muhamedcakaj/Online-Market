@@ -11,6 +11,10 @@ public class Products {
         this.productDescribe = productDescribe;
     }
 
+    public String getOwner() {
+        return this.owner;
+    }
+
     public String getProductName() {
         return this.productName;
     }
@@ -19,6 +23,7 @@ public class Products {
         return "Owner: " + this.owner
                 + "\nProduct: " + this.productName
                 + "\nDescription: " + this.productDescribe
-                + "\nPrice: " + this.productPrice;
+                + "\nPrice: " + this.productPrice
+                + "\n---------------------------------------";
     }
 }

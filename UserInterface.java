@@ -38,12 +38,18 @@ public class UserInterface {
     }
 
     public void logIn(int userIndex) {
+        System.out.println("\t\tWelcome " + this.user.get(userIndex).getName());
         while (true) {
-            System.out.println("\t\tWelcome " + this.user.get(userIndex).getName());
-            System.out.println("->1.Products on Sale\n->2.Search For Products->7.Exit");
+            System.out.println("->1.Products on Sale\n->2.Search For Products\n->3.View Shopping Cart->7.Exit");
             int choice = Integer.valueOf(this.scan.nextLine());
             if (choice == 7) {
                 break;
+            } else if (choice == 1) {
+                productsOnSale(userIndex);
+            } else if (choice == 2) {
+                searchForProducts(userIndex);
+            } else if (choice == 3) {
+
             }
 
         }
@@ -51,7 +57,7 @@ public class UserInterface {
 
     public void singUp() {
         try {
-            try (FileWriter writer = new FileWriter("User.txt")) {
+            try (FileWriter writer = new FileWriter("user.txt")) {
                 System.out.println("Write your name");
                 String name = this.scan.nextLine();
                 System.out.println("Write your password");
@@ -62,6 +68,38 @@ public class UserInterface {
             System.out.println("You have successfully sing up");
         } catch (Exception e) {
             System.out.println("Write the necessary information correctly");
+        }
+    }
+
+    public void productsOnSale(int userIndex) {
+        while (true) {
+            System.out.println("These are the currently products for sale");
+            for (int i = 0; i < this.products.size(); i++) {
+                System.out.println(i + 1 + ".\n" + this.products.get(i));
+            }
+            System.out.println("->Press B to buy one of them\n->Press enter to get back");
+            String choice = this.scan.nextLine();
+            if (choice.equals("")) {
+                break;
+            } else if (choice.equalsIgnoreCase("B")) {
+                System.out.println("Choose a product by number to add to your cart");
+                int productChoose = Integer.valueOf(this.scan.nextLine());
+                if (productChoose >= this.products.size()) {
+                    this.user.get(userIndex).addProductsToShoppingCart(this.products.get(productChoose));
+                } else {
+                    System.out.println("Choose the correct number please");
+                }
+            }
+        }
+    }
+
+    public void searchForProducts(int userIndex) {
+        while (true) {
+            System.out.println("Search:");
+            String search = this.scan.nextLine();
+            for (int i = 0; i < this.products.size(); i++) {
+                
+            }
         }
     }
 
@@ -86,8 +124,8 @@ public class UserInterface {
         return index;
     }
 
-    public void importProductsFromFile() {
-        try (Scanner scan = new Scanner(Paths.get("Products.txt"))) {
+    public void importProductsAndUsersFromFile() {
+        try (Scanner scan = new Scanner(Paths.get("products.txt"))) {
             while (scan.hasNextLine()) {
                 String file = scan.nextLine();
 
@@ -98,7 +136,19 @@ public class UserInterface {
                 this.products.add(new Products(parts[0], parts[1], price, parts[3]));
             }
         } catch (Exception e) {
-            System.out.println("Error :" + e.getMessage());
+
+        }
+        try (Scanner scanner = new Scanner(Paths.get("user.txt"))) {
+            while (scanner.hasNextLine()) {
+                String file = scanner.nextLine();
+
+                String[] parts = file.split(",");
+                int password = Integer.valueOf(parts[1]);
+
+                this.user.add(new User(parts[0], password));
+            }
+        } catch (Exception e) {
+
         }
     }
 
