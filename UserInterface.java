@@ -13,7 +13,7 @@ public class UserInterface {
     }
 
     public void importProductsFromFile() {
-        try (Scanner scan = new Scanner(Paths.get("File.txt"))) {
+        try (Scanner scan = new Scanner(Paths.get("Products.txt"))) {
             while (scan.hasNextLine()) {
                 String file = scan.nextLine();
 
