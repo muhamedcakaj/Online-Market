@@ -19,6 +19,10 @@ public class Products {
         return this.productName;
     }
 
+    public int getProductPrice() {
+        return this.productPrice;
+    }
+
     public String toString() {
         return "Owner: " + this.owner
                 + "\nProduct: " + this.productName

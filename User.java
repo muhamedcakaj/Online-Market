@@ -22,4 +22,27 @@ public class User {
     public void addProductsToShoppingCart(Products products) {
         this.shoppingCart.add(products);
     }
+
+    public void removeProductsFromShoppingCart(Products products) {
+        this.shoppingCart.remove(products);
+    }
+
+    public int calculateCartProductsPrice() {
+        int sum = 0;
+        for (Products productsPrice : this.shoppingCart) {
+            sum += productsPrice.getProductPrice();
+        }
+
+        return sum;
+    }
+
+    public String toString() {
+        String productsOnCart = "";
+        for (Products products : this.shoppingCart) {
+            productsOnCart += products + "\n";
+        }
+        return productsOnCart
+                + "\n-----------------------------------------------------------------"
+                + "\nTotal Price: " + calculateCartProductsPrice();
+    }
 }
