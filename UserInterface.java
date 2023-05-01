@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.io.FileWriter;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
@@ -10,22 +11,6 @@ public class UserInterface {
     public UserInterface(Scanner scan) {
         this.scan = scan;
         this.user = new ArrayList<>();
-    }
-
-    public void importProductsFromFile() {
-        try (Scanner scan = new Scanner(Paths.get("Products.txt"))) {
-            while (scan.hasNextLine()) {
-                String file = scan.nextLine();
-
-                String[] parts = file.split(",");
-
-                int price = Integer.valueOf(parts[2]);
-
-                this.products.add(new Products(parts[0], parts[1], price, parts[3]));
-            }
-        } catch (Exception e) {
-            System.out.println("Error :" + e.getMessage());
-        }
     }
 
     public void start() {
@@ -65,12 +50,19 @@ public class UserInterface {
     }
 
     public void singUp() {
-        System.out.println("Write your name");
-        String name = this.scan.nextLine();
-        System.out.println("Write your password");
-        int password = Integer.valueOf(this.scan.nextLine());
-        this.user.add(new User(name, password));
-        System.out.println("You have successfully sing up");
+        try {
+            try (FileWriter writer = new FileWriter("User.txt")) {
+                System.out.println("Write your name");
+                String name = this.scan.nextLine();
+                System.out.println("Write your password");
+                int password = Integer.valueOf(this.scan.nextLine());
+                String sentToFile = name + "," + password;
+                writer.write(sentToFile);
+            }
+            System.out.println("You have successfully sing up");
+        } catch (Exception e) {
+            System.out.println("Write the necessary information correctly");
+        }
     }
 
     public boolean logInTrueFalse(String name, int password) {
@@ -92,6 +84,22 @@ public class UserInterface {
             }
         }
         return index;
+    }
+
+    public void importProductsFromFile() {
+        try (Scanner scan = new Scanner(Paths.get("Products.txt"))) {
+            while (scan.hasNextLine()) {
+                String file = scan.nextLine();
+
+                String[] parts = file.split(",");
+
+                int price = Integer.valueOf(parts[2]);
+
+                this.products.add(new Products(parts[0], parts[1], price, parts[3]));
+            }
+        } catch (Exception e) {
+            System.out.println("Error :" + e.getMessage());
+        }
     }
 
 }
