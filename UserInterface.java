@@ -62,11 +62,15 @@ public class UserInterface {
                 String name = this.scan.nextLine();
                 System.out.println("Write your password");
                 int password = Integer.valueOf(this.scan.nextLine());
-                this.user.add(new User(name, password));
-                String sentToFile = name + "," + password;
-                writer.write(sentToFile);
+                if (userExistTrueFalse(name)) {
+                    System.out.println("This name already exist please try another one");
+                } else {
+                    this.user.add(new User(name, password));
+                    String sentToFile = name + "," + password;
+                    writer.write(sentToFile);
+                    System.out.println("You have successfully sing up");
+                }
             }
-            System.out.println("You have successfully sing up");
         } catch (Exception e) {
             System.out.println("Write the necessary information correctly");
         }
@@ -120,9 +124,18 @@ public class UserInterface {
     }
 
     public void viewShoppingCart(int userIndex) {
-        while(true){
-            
+        while (true) {
+
         }
+    }
+
+    public boolean userExistTrueFalse(String name) {
+        for (User user : this.user) {
+            if (user.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean logInTrueFalse(String name, int password) {
