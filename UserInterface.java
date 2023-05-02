@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.io.File;
 import java.io.FileWriter;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -12,10 +11,13 @@ public class UserInterface {
     public UserInterface(Scanner scan) {
         this.scan = scan;
         this.user = new ArrayList<>();
+        this.products = new ArrayList<>();
     }
 
     public void start() {
+
         while (true) {
+            importProductsAndUsersFromFile();
             System.out.println("\t\tWelcome to Online Market\n->Log In\n->Sing Up\n->Exit");
             String logInSingUp = this.scan.nextLine();
             if (logInSingUp.equalsIgnoreCase("Exit")) {
@@ -42,7 +44,7 @@ public class UserInterface {
         System.out.println("\t\tWelcome " + this.user.get(userIndex).getName());
         while (true) {
             System.out.println("->1.Products on Sale\n->2.Search For Products\n->3.View Shopping Cart"
-                    + "->4.Add a product for sale");
+                    + "->\n4.Add a product for sale");
             int choice = Integer.valueOf(this.scan.nextLine());
             if (choice == 7) {
                 break;
@@ -52,6 +54,8 @@ public class UserInterface {
                 searchForProducts(userIndex);
             } else if (choice == 3) {
                 viewShoppingCart(userIndex);
+            } else if (choice == 4) {
+                addProductForSale(userIndex);
             }
 
         }
@@ -79,22 +83,26 @@ public class UserInterface {
     }
 
     public void productsOnSale(int userIndex) {
-        while (true) {
-            System.out.println("These are the currently products for sale");
-            for (int i = 0; i < this.products.size(); i++) {
-                System.out.println(i + 1 + ".\n" + this.products.get(i));
-            }
-            System.out.println("->Press B to buy one of them\n->Press enter to get back");
-            String choice = this.scan.nextLine();
-            if (choice.equals("")) {
-                break;
-            } else if (choice.equalsIgnoreCase("B")) {
-                System.out.println("Choose a product by number to add to your cart");
-                int productChoose = Integer.valueOf(this.scan.nextLine());
-                if (productChoose >= this.products.size()) {
-                    this.user.get(userIndex).addProductsToShoppingCart(this.products.get(productChoose));
-                } else {
-                    System.out.println("Choose the correct number please");
+        if (this.products.isEmpty()) {
+            System.out.println("There are no products at the moment for sale");
+        } else {
+            while (true) {
+                System.out.println("These are the currently products for sale");
+                for (int i = 0; i < this.products.size(); i++) {
+                    System.out.println(i + 1 + ".\n" + this.products.get(i));
+                }
+                System.out.println("->Press B to buy one of them\n->Press enter to get back");
+                String choice = this.scan.nextLine();
+                if (choice.equals("")) {
+                    break;
+                } else if (choice.equalsIgnoreCase("B")) {
+                    System.out.println("Choose a product by number to add to your cart");
+                    int productChoose = Integer.valueOf(this.scan.nextLine());
+                    if (productChoose >= this.products.size()) {
+                        this.user.get(userIndex).addProductsToShoppingCart(this.products.get(productChoose));
+                    } else {
+                        System.out.println("Choose the correct number please");
+                    }
                 }
             }
         }
