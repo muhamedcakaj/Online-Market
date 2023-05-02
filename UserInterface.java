@@ -44,9 +44,10 @@ public class UserInterface {
         System.out.println("\t\tWelcome " + this.user.get(userIndex).getName());
         while (true) {
             System.out.println("->1.Products on Sale\n->2.Search For Products\n->3.View Shopping Cart"
-                    + "\n->4.Add a product for sale");
+                    + "\n->4.Add a product for sale\n->5.Notifications\n->6.Messaging"
+                    + "\n->7.Payment History\n->8.Checkout\n->9.Exit");
             int choice = Integer.valueOf(this.scan.nextLine());
-            if (choice == 7) {
+            if (choice == 9) {
                 break;
             } else if (choice == 1) {
                 productsOnSale(userIndex);
@@ -56,6 +57,14 @@ public class UserInterface {
                 viewShoppingCart(userIndex);
             } else if (choice == 4) {
                 addProductForSale(userIndex);
+            } else if (choice == 5) {
+                notifications(userIndex);
+            } else if (choice == 6) {
+                messaging();
+            } else if (choice == 7) {
+                paymentHistory();
+            } else if (choice == 8) {
+                checkout();
             }
 
         }
@@ -191,6 +200,22 @@ public class UserInterface {
             }
 
         }
+    }
+
+    public void notifications(int userIndex) {
+
+    }
+
+    public void messaging() {
+
+    }
+
+    public void paymentHistory() {
+
+    }
+
+    public void checkout() {
+
     }
 
     public boolean searchProductFoundTrueFalse(String name) {
