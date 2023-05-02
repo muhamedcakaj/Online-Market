@@ -19,6 +19,10 @@ public class User {
         return this.password;
     }
 
+    public ArrayList<Products> getShoppingCartList() {
+        return this.shoppingCart;
+    }
+
     public void addProductsToShoppingCart(Products products) {
         this.shoppingCart.add(products);
     }
@@ -42,7 +46,6 @@ public class User {
             productsOnCart += products + "\n";
         }
         return productsOnCart
-                + "\n-----------------------------------------------------------------"
                 + "\nTotal Price: " + calculateCartProductsPrice();
     }
 }

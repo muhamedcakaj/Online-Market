@@ -44,7 +44,7 @@ public class UserInterface {
         System.out.println("\t\tWelcome " + this.user.get(userIndex).getName());
         while (true) {
             System.out.println("->1.Products on Sale\n->2.Search For Products\n->3.View Shopping Cart"
-                    + "->\n4.Add a product for sale");
+                    + "\n->4.Add a product for sale");
             int choice = Integer.valueOf(this.scan.nextLine());
             if (choice == 7) {
                 break;
@@ -98,8 +98,8 @@ public class UserInterface {
                 } else if (choice.equalsIgnoreCase("B")) {
                     System.out.println("Choose a product by number to add to your cart");
                     int productChoose = Integer.valueOf(this.scan.nextLine());
-                    if (productChoose >= this.products.size()) {
-                        this.user.get(userIndex).addProductsToShoppingCart(this.products.get(productChoose));
+                    if (productChoose <= this.products.size()) {
+                        this.user.get(userIndex).addProductsToShoppingCart(this.products.get(productChoose - 1));
                     } else {
                         System.out.println("Choose the correct number please");
                     }
@@ -112,38 +112,53 @@ public class UserInterface {
         while (true) {
             System.out.println("Search:");
             String search = this.scan.nextLine();
-            for (int i = 0; i < this.products.size(); i++) {
-                if (this.products.get(i).getProductName().contains(search)) {
-                    System.out.println(i + 1 + ".\n" + this.products.get(i));
+            if (searchProductFoundTrueFalse(search)) {
+
+                for (int i = 0; i < this.products.size(); i++) {
+                    if (this.products.get(i).getProductName().contains(search)) {
+                        System.out.println(i + 1 + ".\n" + this.products.get(i));
+                    }
                 }
-            }
-            System.out.println("->Press B to buy one of them\n->Press enter to get back");
-            String choice = this.scan.nextLine();
-            if (choice.equals("")) {
+                System.out.println("->Press B to buy one of them\n->Press enter to get back");
+                String choice = this.scan.nextLine();
+                if (choice.equals("")) {
+                    break;
+                } else if (choice.equalsIgnoreCase("B")) {
+                    System.out.println("Choose a product by number to add to your cart");
+                    int productChoose = Integer.valueOf(this.scan.nextLine());
+                    if (productChoose <= this.products.size()) {
+                        this.user.get(userIndex).addProductsToShoppingCart(this.products.get(productChoose - 1));
+                    } else {
+                        System.out.println("Choose the correct number please");
+                    }
+                }
+            } else {
+                System.out.println("Product not found");
                 break;
-            } else if (choice.equalsIgnoreCase("B")) {
-                System.out.println("Choose a product by number to add to your cart");
-                int productChoose = Integer.valueOf(this.scan.nextLine());
-                if (productChoose >= this.products.size()) {
-                    this.user.get(userIndex).addProductsToShoppingCart(this.products.get(productChoose));
-                } else {
-                    System.out.println("Choose the correct number please");
-                }
             }
         }
     }
 
     public void viewShoppingCart(int userIndex) {
-        while (true) {
-            this.user.get(userIndex);
-            System.out.println("->Press R to remove something from the cart\n->Press enter to get back");
-            String choice = this.scan.nextLine();
-            if (choice.equals("")) {
-                break;
-            } else if (choice.equalsIgnoreCase("R")) {
-                System.out.println("Choose by number which product you want to remove");
-                int removeProductNumber = Integer.valueOf(this.scan.nextLine());
-                this.user.get(userIndex).removeProductsFromShoppingCart(this.products.get(removeProductNumber));
+        if (this.user.get(userIndex).getShoppingCartList().isEmpty()) {
+            System.out.println("There are no products at the moment on your cart");
+        } else {
+            while (true) {
+                System.out.println(this.user.get(userIndex));
+                System.out.println("->Press R to remove something from the cart\n->Press enter to get back");
+                String choice = this.scan.nextLine();
+                if (choice.equals("")) {
+                    break;
+                } else if (choice.equalsIgnoreCase("R")) {
+                    System.out.println("Choose by number which product you want to remove");
+                    int removeProductNumber = Integer.valueOf(this.scan.nextLine());
+                    if (removeProductNumber <= this.products.size()) {
+                        this.user.get(userIndex)
+                                .removeProductsFromShoppingCart(this.products.get(removeProductNumber - 1));
+                    } else {
+                        System.out.println("Choose the correct number please");
+                    }
+                }
             }
         }
     }
@@ -176,6 +191,15 @@ public class UserInterface {
             }
 
         }
+    }
+
+    public boolean searchProductFoundTrueFalse(String name) {
+        for (Products products : this.products) {
+            if (products.getProductName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean userExistTrueFalse(String name) {
