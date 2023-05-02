@@ -49,16 +49,28 @@ public class User {
         this.notification.add(notification);
     }
 
+    public void printNotification() {
+        for (int i = 0; i < this.notification.size(); i++) {
+            System.out.println(i + 1 + ". " + this.notification.get(i));
+        }
+    }
+
     public void addHistoryPayment() {
         LocalDate date = LocalDate.now();
         String history = date + "\n-----------------------------------------------";
         for (Products products : this.shoppingCart) {
-            history += "Product name:" + products.getProductName() + "\nProduct Price" + products.getProductPrice()
+            history += "Product name: " + products.getProductName() + "\nProduct Price: " + products.getProductPrice()
                     + "\n";
         }
         history += "-----------------------------------------------";
         this.paymentHistory.add(history);
         this.shoppingCart.clear();
+    }
+
+    public void printPaymentHistory() {
+        for (String paymentHistory : this.paymentHistory) {
+            System.out.println(paymentHistory);
+        }
     }
 
     public String toString() {

@@ -62,7 +62,7 @@ public class UserInterface {
             } else if (choice == 6) {
                 messaging();
             } else if (choice == 7) {
-                paymentHistory();
+                paymentHistory(userIndex);
             } else if (choice == 8) {
                 checkout(userIndex);
             }
@@ -203,22 +203,30 @@ public class UserInterface {
     }
 
     public void notifications(int userIndex) {
-
+        this.user.get(userIndex).printNotification();
     }
 
     public void messaging() {
 
     }
 
-    public void paymentHistory() {
-
+    public void paymentHistory(int userIndex) {
+        this.user.get(userIndex).printPaymentHistory();
     }
 
     public void checkout(int userIndex) {
+        System.out.println(this.user.get(userIndex));
         System.out.println("Do you really want to checkout\n->Yes\n->No");
         String checkout = this.scan.nextLine();
         if (checkout.equalsIgnoreCase("Yes")) {
-
+            this.user.get(userIndex).addHistoryPayment();
+            for (Products notifications : this.user.get(userIndex).getShoppingCartList()) {
+                int findUserIndex = findUserIndex(notifications.getOwner());
+                String notification = "Your product " + notifications.getProductName() + " has been sold to "
+                        + this.user.get(userIndex).getName();
+                this.user.get(findUserIndex).addNotifications(notification);
+            }
+            System.out.println("You have sucesfully checkout");
         }
     }
 
