@@ -64,7 +64,7 @@ public class UserInterface {
             } else if (choice == 7) {
                 paymentHistory();
             } else if (choice == 8) {
-                checkout();
+                checkout(userIndex);
             }
 
         }
@@ -214,8 +214,12 @@ public class UserInterface {
 
     }
 
-    public void checkout() {
+    public void checkout(int userIndex) {
+        System.out.println("Do you really want to checkout\n->Yes\n->No");
+        String checkout = this.scan.nextLine();
+        if (checkout.equalsIgnoreCase("Yes")) {
 
+        }
     }
 
     public boolean searchProductFoundTrueFalse(String name) {
