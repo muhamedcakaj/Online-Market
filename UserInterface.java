@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.io.File;
 import java.io.FileWriter;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -40,7 +41,8 @@ public class UserInterface {
     public void logIn(int userIndex) {
         System.out.println("\t\tWelcome " + this.user.get(userIndex).getName());
         while (true) {
-            System.out.println("->1.Products on Sale\n->2.Search For Products\n->3.View Shopping Cart->7.Exit");
+            System.out.println("->1.Products on Sale\n->2.Search For Products\n->3.View Shopping Cart"
+                    + "->4.Add a product for sale");
             int choice = Integer.valueOf(this.scan.nextLine());
             if (choice == 7) {
                 break;
@@ -125,6 +127,45 @@ public class UserInterface {
 
     public void viewShoppingCart(int userIndex) {
         while (true) {
+            this.user.get(userIndex);
+            System.out.println("->Press R to remove something from the cart\n->Press enter to get back");
+            String choice = this.scan.nextLine();
+            if (choice.equals("")) {
+                break;
+            } else if (choice.equalsIgnoreCase("R")) {
+                System.out.println("Choose by number which product you want to remove");
+                int removeProductNumber = Integer.valueOf(this.scan.nextLine());
+                this.user.get(userIndex).removeProductsFromShoppingCart(this.products.get(removeProductNumber));
+            }
+        }
+    }
+
+    public void addProductForSale(int userIndex) {
+        while (true) {
+            try {
+                try (FileWriter writer = new FileWriter("products.txt")) {
+                    System.out.println("Type product name");
+                    String productName = this.scan.nextLine();
+                    System.out.println("Type product price");
+                    int price = Integer.valueOf(this.scan.nextLine());
+                    System.out.println("Describe your product");
+                    String describe = this.scan.nextLine();
+                    String sentToFile = this.user.get(userIndex).getName() + "," + productName + "," + price + ","
+                            + describe;
+                    writer.write(sentToFile);
+                    this.products.add(new Products(this.user.get(userIndex).getName(), productName, price, describe));
+                    System.out.println("You have successfully added a product for sale");
+                    System.out.println("->Press C to continue\nPress enter to get back");
+                    String choice = this.scan.nextLine();
+                    if (choice.equals("")) {
+                        break;
+                    } else if (choice.equalsIgnoreCase("C")) {
+                        continue;
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("Write the necessary information correctly");
+            }
 
         }
     }
