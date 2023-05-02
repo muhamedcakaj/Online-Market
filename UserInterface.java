@@ -49,7 +49,7 @@ public class UserInterface {
             } else if (choice == 2) {
                 searchForProducts(userIndex);
             } else if (choice == 3) {
-
+                viewShoppingCart(userIndex);
             }
 
         }
@@ -62,7 +62,7 @@ public class UserInterface {
                 String name = this.scan.nextLine();
                 System.out.println("Write your password");
                 int password = Integer.valueOf(this.scan.nextLine());
-                this.user.add(new User(name,password));
+                this.user.add(new User(name, password));
                 String sentToFile = name + "," + password;
                 writer.write(sentToFile);
             }
@@ -116,6 +116,12 @@ public class UserInterface {
                     System.out.println("Choose the correct number please");
                 }
             }
+        }
+    }
+
+    public void viewShoppingCart(int userIndex) {
+        while(true){
+            
         }
     }
 
