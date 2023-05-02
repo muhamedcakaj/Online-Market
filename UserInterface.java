@@ -15,9 +15,8 @@ public class UserInterface {
     }
 
     public void start() {
-
+        importProductsAndUsersFromFile();
         while (true) {
-            importProductsAndUsersFromFile();
             System.out.println("\t\tWelcome to Online Market\n->Log In\n->Sing Up\n->Exit");
             String logInSingUp = this.scan.nextLine();
             if (logInSingUp.equalsIgnoreCase("Exit")) {
@@ -60,7 +59,7 @@ public class UserInterface {
             } else if (choice == 5) {
                 notifications(userIndex);
             } else if (choice == 6) {
-                messaging();
+                messaging(userIndex);
             } else if (choice == 7) {
                 paymentHistory(userIndex);
             } else if (choice == 8) {
@@ -72,7 +71,7 @@ public class UserInterface {
 
     public void singUp() {
         try {
-            try (FileWriter writer = new FileWriter("user.txt")) {
+            try (FileWriter writer = new FileWriter("user.txt", true)) {
                 System.out.println("Write your name");
                 String name = this.scan.nextLine();
                 System.out.println("Write your password");
@@ -81,7 +80,8 @@ public class UserInterface {
                     System.out.println("This name already exist please try another one");
                 } else {
                     this.user.add(new User(name, password));
-                    String sentToFile = name + "," + password;
+
+                    String sentToFile = name + "," + password + "\n";
                     writer.write(sentToFile);
                     System.out.println("You have successfully sing up");
                 }
@@ -175,7 +175,7 @@ public class UserInterface {
     public void addProductForSale(int userIndex) {
         while (true) {
             try {
-                try (FileWriter writer = new FileWriter("products.txt")) {
+                try (FileWriter writer = new FileWriter("products.txt", true)) {
                     System.out.println("Type product name");
                     String productName = this.scan.nextLine();
                     System.out.println("Type product price");
@@ -187,7 +187,7 @@ public class UserInterface {
                     writer.write(sentToFile);
                     this.products.add(new Products(this.user.get(userIndex).getName(), productName, price, describe));
                     System.out.println("You have successfully added a product for sale");
-                    System.out.println("->Press C to continue\nPress enter to get back");
+                    System.out.println("->Press C to continue\n->Press enter to get back");
                     String choice = this.scan.nextLine();
                     if (choice.equals("")) {
                         break;
@@ -206,7 +206,7 @@ public class UserInterface {
         this.user.get(userIndex).printNotification();
     }
 
-    public void messaging() {
+    public void messaging(int userIndex) {
 
     }
 
