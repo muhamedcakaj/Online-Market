@@ -62,6 +62,7 @@ public class UserInterface {
                 String name = this.scan.nextLine();
                 System.out.println("Write your password");
                 int password = Integer.valueOf(this.scan.nextLine());
+                this.user.add(new User(name,password));
                 String sentToFile = name + "," + password;
                 writer.write(sentToFile);
             }
