@@ -183,7 +183,7 @@ public class UserInterface {
                     System.out.println("Describe your product");
                     String describe = this.scan.nextLine();
                     String sentToFile = this.user.get(userIndex).getName() + "," + productName + "," + price + ","
-                            + describe;
+                            + describe + "\n";
                     writer.write(sentToFile);
                     this.products.add(new Products(this.user.get(userIndex).getName(), productName, price, describe));
                     System.out.println("You have successfully added a product for sale");
@@ -219,20 +219,21 @@ public class UserInterface {
         System.out.println("Do you really want to checkout\n->Yes\n->No");
         String checkout = this.scan.nextLine();
         if (checkout.equalsIgnoreCase("Yes")) {
-            this.user.get(userIndex).addHistoryPayment();
             for (Products notifications : this.user.get(userIndex).getShoppingCartList()) {
                 int findUserIndex = findUserIndex(notifications.getOwner());
                 String notification = "Your product " + notifications.getProductName() + " has been sold to "
                         + this.user.get(userIndex).getName();
+                System.out.println(findUserIndex);
                 this.user.get(findUserIndex).addNotifications(notification);
             }
+            this.user.get(userIndex).addHistoryPayment();
             System.out.println("You have sucesfully checkout");
         }
     }
 
     public boolean searchProductFoundTrueFalse(String name) {
         for (Products products : this.products) {
-            if (products.getProductName().equals(name)) {
+            if (products.getProductName().contains(name)) {
                 return true;
             }
         }

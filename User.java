@@ -50,8 +50,12 @@ public class User {
     }
 
     public void printNotification() {
-        for (int i = 0; i < this.notification.size(); i++) {
-            System.out.println(i + 1 + ". " + this.notification.get(i));
+        if (this.notification.isEmpty()) {
+            System.out.println("There are no notifications available");
+        } else {
+            for (int i = 0; i < this.notification.size(); i++) {
+                System.out.println(i + 1 + ". " + this.notification.get(i));
+            }
         }
     }
 
@@ -59,10 +63,10 @@ public class User {
         LocalDate date = LocalDate.now();
         String history = date + "\n-----------------------------------------------";
         for (Products products : this.shoppingCart) {
-            history += "Product name: " + products.getProductName() + "\nProduct Price: " + products.getProductPrice()
+            history += "\nProduct name: " + products.getProductName() + "\nProduct Price: " + products.getProductPrice()
                     + "\n";
         }
-        history += "-----------------------------------------------";
+        history += calculateCartProductsPrice() + "\n-----------------------------------------------";
         this.paymentHistory.add(history);
         this.shoppingCart.clear();
     }
