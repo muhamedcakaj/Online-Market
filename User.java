@@ -84,7 +84,9 @@ public class User {
     }
 
     public void addInbox(String name) {
-        this.inbox.add(name);
+        if (!(this.inbox.contains(name))) {
+            this.inbox.add(name);
+        }
     }
 
     public void printInboxRequest() {
@@ -95,7 +97,7 @@ public class User {
 
     public String inboxFindUserName(int index) {
         for (int i = 0; i < this.inbox.size(); i++) {
-            if (i == index - 1) {
+            if (i == index) {
                 return this.inbox.get(i);
             }
         }

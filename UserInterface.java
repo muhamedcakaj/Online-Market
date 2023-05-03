@@ -192,12 +192,14 @@ public class UserInterface {
         System.out.println("Choose one by number to continue conversation");
         int number = Integer.valueOf(this.scan.nextLine());
         if (number <= this.user.get(userIndex).getInboxList().size()) {
-            String secondUserName = this.user.get(userIndex).inboxFindUserName(number);
+            String secondUserName = this.user.get(userIndex).inboxFindUserName(number-1);
             int secondUserIndex = findUserIndex(secondUserName);
             int inboxIndex = findMessageIndex(this.user.get(userIndex).getName(),
                     this.user.get(secondUserIndex).getName());
+            int secondUserNameIndex = findUserIndex(secondUserName);
+            this.user.get(secondUserNameIndex).addInbox(this.user.get(userIndex).getName());
             while (true) {
-                this.inbox.get(inboxIndex);
+                this.inbox.get(inboxIndex).printMessage();
                 System.out.println("Write a message(Press enter to get back):");
                 String message = this.scan.nextLine();
                 if (message.equals("")) {
@@ -271,8 +273,9 @@ public class UserInterface {
                     this.inbox.get(inboxIndex).addMessaging(this.user.get(userIndex).getName(), message);
                 } else {
                     this.inbox.add(
-                            new Inbox(this.user.get(userIndex).getName(), this.products.get(productChoose).getOwner()));
-                    int secondUserIndex = findUserIndex(this.products.get(productChoose).getOwner());
+                            new Inbox(this.user.get(userIndex).getName(),
+                                    this.products.get(productChoose - 1).getOwner()));
+                    int secondUserIndex = findUserIndex(this.products.get(productChoose - 1).getOwner());
                     this.user.get(secondUserIndex).addInbox(this.user.get(userIndex).getName());
                 }
             }
