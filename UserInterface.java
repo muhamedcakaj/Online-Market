@@ -43,7 +43,7 @@ public class UserInterface {
         System.out.println("\t\tWelcome " + this.user.get(userIndex).getName());
         while (true) {
             System.out.println("->1.Products on Sale\n->2.Search For Products\n->3.View Shopping Cart"
-                    + "\n->4.Add a product for sale\n->5.Notifications\n->6.Messaging"
+                    + "\n->4.Add a product for sale\n->5.Notifications\n->6.Inbox"
                     + "\n->7.Payment History\n->8.Checkout\n->9.Exit");
             int choice = Integer.valueOf(this.scan.nextLine());
             if (choice == 9) {
@@ -59,7 +59,7 @@ public class UserInterface {
             } else if (choice == 5) {
                 notifications(userIndex);
             } else if (choice == 6) {
-                messaging(userIndex);
+                inbox(userIndex);
             } else if (choice == 7) {
                 paymentHistory(userIndex);
             } else if (choice == 8) {
@@ -185,7 +185,7 @@ public class UserInterface {
         this.user.get(userIndex).printNotification();
     }
 
-    public void messaging(int userIndex) {
+    public void inbox(int userIndex) {
 
     }
 
