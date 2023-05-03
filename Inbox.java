@@ -23,7 +23,8 @@ public class Inbox {
 
     public void addMessaging(String name, String messaging) {
         LocalTime currentTime = LocalTime.now();
-        this.messaging.add("#"+name + " *" + currentTime.getHour() + ":" + currentTime.getMinute() + "\n" + messaging);
+        this.messaging
+                .add("#" + name + " *" + currentTime.getHour() + ":" + currentTime.getMinute() + "\n" + messaging);
     }
 
     public boolean conversationHistory(String firstPerson, String secondPerson) {
@@ -32,8 +33,12 @@ public class Inbox {
     }
 
     public void printMessage() {
-        for (String messaging : this.messaging) {
-            System.out.println(messaging);
+        if (this.messaging.isEmpty()) {
+            System.out.println("No messaging at the moment");
+        } else {
+            for (String messaging : this.messaging) {
+                System.out.println(messaging);
+            }
         }
     }
 

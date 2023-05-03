@@ -7,6 +7,7 @@ public class User {
     private ArrayList<Products> shoppingCart;
     private ArrayList<String> notification;
     private ArrayList<String> paymentHistory;
+    private ArrayList<String> inbox;
 
     public User(String name, int password) {
         this.name = name;
@@ -14,6 +15,7 @@ public class User {
         this.shoppingCart = new ArrayList<>();
         this.notification = new ArrayList<>();
         this.paymentHistory = new ArrayList<>();
+        this.inbox = new ArrayList<>();
     }
 
     public String getName() {
@@ -26,6 +28,10 @@ public class User {
 
     public ArrayList<Products> getShoppingCartList() {
         return this.shoppingCart;
+    }
+
+    public ArrayList<String> getInboxList() {
+        return this.inbox;
     }
 
     public void addProductsToShoppingCart(Products products) {
@@ -77,10 +83,31 @@ public class User {
         }
     }
 
+    public void addInbox(String name) {
+        this.inbox.add(name);
+    }
+
+    public void printInboxRequest() {
+        for (int i = 0; i < this.inbox.size(); i++) {
+            System.out.println(i + 1 + ". " + this.inbox.get(i));
+        }
+    }
+
+    public String inboxFindUserName(int index) {
+        for (int i = 0; i < this.inbox.size(); i++) {
+            if (i == index - 1) {
+                return this.inbox.get(i);
+            }
+        }
+        return null;
+    }
+
     public String toString() {
         String productsOnCart = "";
+        int productNumber = 1;
         for (Products products : this.shoppingCart) {
-            productsOnCart += products + "\n";
+            productsOnCart += productNumber + ".\n" + products + "\n";
+            productNumber++;
         }
         return productsOnCart
                 + "\nTotal Price: " + calculateCartProductsPrice();

@@ -7,11 +7,13 @@ public class UserInterface {
     private Scanner scan;
     private ArrayList<User> user;
     private ArrayList<Products> products;
+    private ArrayList<Inbox> inbox;
 
     public UserInterface(Scanner scan) {
         this.scan = scan;
         this.user = new ArrayList<>();
         this.products = new ArrayList<>();
+        this.inbox = new ArrayList<>();
     }
 
     public void start() {
@@ -186,7 +188,26 @@ public class UserInterface {
     }
 
     public void inbox(int userIndex) {
-
+        this.user.get(userIndex).printInboxRequest();
+        System.out.println("Choose one by number to continue conversation");
+        int number = Integer.valueOf(this.scan.nextLine());
+        if (number <= this.user.get(userIndex).getInboxList().size()) {
+            String secondUserName = this.user.get(userIndex).inboxFindUserName(number);
+            int secondUserIndex = findUserIndex(secondUserName);
+            int inboxIndex = findMessageIndex(this.user.get(userIndex).getName(),
+                    this.user.get(secondUserIndex).getName());
+            while (true) {
+                this.inbox.get(inboxIndex);
+                System.out.println("Write a message(Press enter to get back):");
+                String message = this.scan.nextLine();
+                if (message.equals("")) {
+                    break;
+                }
+                this.inbox.get(inboxIndex).addMessaging(this.user.get(userIndex).getName(), message);
+            }
+        } else {
+            System.out.println("Choose the correct number please");
+        }
     }
 
     public void paymentHistory(int userIndex) {
@@ -212,7 +233,8 @@ public class UserInterface {
 
     public void addProductToShoppingCartMethod(int userIndex) {
         while (true) {
-            System.out.println("->Press B to buy one of them\n->Press enter to get back");
+            System.out.println(
+                    "->Press B to buy one of them\n->Press N to negotiate about the price \n->Press enter to get back");
             String choice = this.scan.nextLine();
             if (choice.equals("")) {
                 break;
@@ -224,8 +246,40 @@ public class UserInterface {
                 } else {
                     System.out.println("Choose the correct number please");
                 }
+            } else if (choice.equalsIgnoreCase("N")) {
+                inboxMethodForShoppingCart(userIndex);
             }
         }
+    }
+
+    public void inboxMethodForShoppingCart(int userIndex) {
+        System.out.println("Choose a product by number to negotiate about the price");
+        int productChoose = Integer.valueOf(this.scan.nextLine());
+        if (productChoose <= this.products.size()) {
+            while (true) {
+                if (findMessageHisory(this.user.get(userIndex).getName(),
+                        this.products.get(productChoose - 1).getOwner())) {
+
+                    int inboxIndex = findMessageIndex(this.user.get(userIndex).getName(),
+                            this.products.get(productChoose - 1).getOwner());
+                    this.inbox.get(inboxIndex).printMessage();
+                    System.out.println("Write a message(Press enter to get back):");
+                    String message = this.scan.nextLine();
+                    if (message.equals("")) {
+                        break;
+                    }
+                    this.inbox.get(inboxIndex).addMessaging(this.user.get(userIndex).getName(), message);
+                } else {
+                    this.inbox.add(
+                            new Inbox(this.user.get(userIndex).getName(), this.products.get(productChoose).getOwner()));
+                    int secondUserIndex = findUserIndex(this.products.get(productChoose).getOwner());
+                    this.user.get(secondUserIndex).addInbox(this.user.get(userIndex).getName());
+                }
+            }
+        } else {
+            System.out.println("Choose the correct number please");
+        }
+
     }
 
     public boolean searchProductFoundTrueFalse(String name) {
@@ -265,6 +319,26 @@ public class UserInterface {
             }
         }
         return index;
+    }
+
+    public boolean findMessageHisory(String name, String name2) {
+        for (Inbox messaging : this.inbox) {
+            if (messaging.conversationHistory(name, name2)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int findMessageIndex(String name, String name2) {
+        int index = 0;
+        for (int i = 0; i < this.inbox.size(); i++) {
+            if (this.inbox.get(i).conversationHistory(name, name2)) {
+                index = i;
+            }
+        }
+        return index;
+
     }
 
     public void importProductsAndUsersFromFile() {
