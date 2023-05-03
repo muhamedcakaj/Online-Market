@@ -100,19 +100,9 @@ public class UserInterface {
                 for (int i = 0; i < this.products.size(); i++) {
                     System.out.println(i + 1 + ".\n" + this.products.get(i));
                 }
-                System.out.println("->Press B to buy one of them\n->Press enter to get back");
-                String choice = this.scan.nextLine();
-                if (choice.equals("")) {
-                    break;
-                } else if (choice.equalsIgnoreCase("B")) {
-                    System.out.println("Choose a product by number to add to your cart");
-                    int productChoose = Integer.valueOf(this.scan.nextLine());
-                    if (productChoose <= this.products.size()) {
-                        this.user.get(userIndex).addProductsToShoppingCart(this.products.get(productChoose - 1));
-                    } else {
-                        System.out.println("Choose the correct number please");
-                    }
-                }
+                addProductToShoppingCartMethod(userIndex);
+                break;
+
             }
         }
     }
@@ -128,19 +118,8 @@ public class UserInterface {
                         System.out.println(i + 1 + ".\n" + this.products.get(i));
                     }
                 }
-                System.out.println("->Press B to buy one of them\n->Press enter to get back");
-                String choice = this.scan.nextLine();
-                if (choice.equals("")) {
-                    break;
-                } else if (choice.equalsIgnoreCase("B")) {
-                    System.out.println("Choose a product by number to add to your cart");
-                    int productChoose = Integer.valueOf(this.scan.nextLine());
-                    if (productChoose <= this.products.size()) {
-                        this.user.get(userIndex).addProductsToShoppingCart(this.products.get(productChoose - 1));
-                    } else {
-                        System.out.println("Choose the correct number please");
-                    }
-                }
+                addProductToShoppingCartMethod(userIndex);
+                break;
             } else {
                 System.out.println("Product not found");
                 break;
@@ -228,6 +207,24 @@ public class UserInterface {
             }
             this.user.get(userIndex).addHistoryPayment();
             System.out.println("You have sucesfully checkout");
+        }
+    }
+
+    public void addProductToShoppingCartMethod(int userIndex) {
+        while (true) {
+            System.out.println("->Press B to buy one of them\n->Press enter to get back");
+            String choice = this.scan.nextLine();
+            if (choice.equals("")) {
+                break;
+            } else if (choice.equalsIgnoreCase("B")) {
+                System.out.println("Choose a product by number to add to your cart");
+                int productChoose = Integer.valueOf(this.scan.nextLine());
+                if (productChoose <= this.products.size()) {
+                    this.user.get(userIndex).addProductsToShoppingCart(this.products.get(productChoose - 1));
+                } else {
+                    System.out.println("Choose the correct number please");
+                }
+            }
         }
     }
 
