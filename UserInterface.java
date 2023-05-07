@@ -233,7 +233,7 @@ public class UserInterface {
                         + this.user.get(userIndex).getName();
                 this.user.get(findUserIndex).addNotifications(notification);
                 // ----------------------------------------------------------
-                int productIndex = findProductIndex(products.getOwner());
+                int productIndex = findProductIndex(products.getProductName());
                 this.products.get(productIndex).setProductStatus();
             }
             this.user.get(userIndex).addHistoryPayment();
