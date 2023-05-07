@@ -37,6 +37,8 @@ public class UserInterface {
 
             } else if (logInSingUp.equalsIgnoreCase("Sing Up")) {
                 singUp();
+            } else {
+                continue;
             }
         }
     }
@@ -66,6 +68,8 @@ public class UserInterface {
                 paymentHistory(userIndex);
             } else if (choice == 8) {
                 checkout(userIndex);
+            } else {
+                continue;
             }
 
         }
@@ -148,6 +152,8 @@ public class UserInterface {
                     } else {
                         System.out.println("Choose the correct number please");
                     }
+                } else {
+                    continue;
                 }
             }
         }
@@ -192,7 +198,7 @@ public class UserInterface {
         System.out.println("Choose one by number to continue conversation");
         int number = Integer.valueOf(this.scan.nextLine());
         if (number <= this.user.get(userIndex).getInboxList().size()) {
-            String secondUserName = this.user.get(userIndex).inboxFindUserName(number-1);
+            String secondUserName = this.user.get(userIndex).inboxFindUserName(number - 1);
             int secondUserIndex = findUserIndex(secondUserName);
             int inboxIndex = findMessageIndex(this.user.get(userIndex).getName(),
                     this.user.get(secondUserIndex).getName());
