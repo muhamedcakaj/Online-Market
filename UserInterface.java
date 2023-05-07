@@ -227,12 +227,14 @@ public class UserInterface {
         System.out.println("Do you really want to checkout\n->Yes\n->No");
         String checkout = this.scan.nextLine();
         if (checkout.equalsIgnoreCase("Yes")) {
-            for (Products notifications : this.user.get(userIndex).getShoppingCartList()) {
-                int findUserIndex = findUserIndex(notifications.getOwner());
-                String notification = "Your product " + notifications.getProductName() + " has been sold to "
+            for (Products products : this.user.get(userIndex).getShoppingCartList()) {
+                int findUserIndex = findUserIndex(products.getOwner());
+                String notification = "Your product " + products.getProductName() + " has been sold to "
                         + this.user.get(userIndex).getName();
-                System.out.println(findUserIndex);
                 this.user.get(findUserIndex).addNotifications(notification);
+                // ----------------------------------------------------------
+                int productIndex = findProductIndex(products.getOwner());
+                this.products.get(productIndex).setProductStatus();
             }
             this.user.get(userIndex).addHistoryPayment();
             System.out.println("You have sucesfully checkout");
@@ -250,7 +252,11 @@ public class UserInterface {
                 System.out.println("Choose a product by number to add to your cart");
                 int productChoose = Integer.valueOf(this.scan.nextLine());
                 if (productChoose <= this.products.size()) {
-                    this.user.get(userIndex).addProductsToShoppingCart(this.products.get(productChoose - 1));
+                    if (!(this.products.get(productChoose - 1).getProductStatus().equals("Sold"))) {
+                        this.user.get(userIndex).addProductsToShoppingCart(this.products.get(productChoose - 1));
+                    } else {
+                        System.out.println("The product can't be added to cart because it has been sold");
+                    }
                 } else {
                     System.out.println("Choose the correct number please");
                 }
@@ -264,26 +270,30 @@ public class UserInterface {
         System.out.println("Choose a product by number to negotiate about the price");
         int productChoose = Integer.valueOf(this.scan.nextLine());
         if (productChoose <= this.products.size()) {
-            while (true) {
-                if (findMessageHisory(this.user.get(userIndex).getName(),
-                        this.products.get(productChoose - 1).getOwner())) {
+            if (!(this.products.get(productChoose - 1).getProductStatus().equals("Sold"))) {
+                while (true) {
+                    if (findMessageHisory(this.user.get(userIndex).getName(),
+                            this.products.get(productChoose - 1).getOwner())) {
 
-                    int inboxIndex = findMessageIndex(this.user.get(userIndex).getName(),
-                            this.products.get(productChoose - 1).getOwner());
-                    this.inbox.get(inboxIndex).printMessage();
-                    System.out.println("Write a message(Press enter to get back):");
-                    String message = this.scan.nextLine();
-                    if (message.equals("")) {
-                        break;
+                        int inboxIndex = findMessageIndex(this.user.get(userIndex).getName(),
+                                this.products.get(productChoose - 1).getOwner());
+                        this.inbox.get(inboxIndex).printMessage();
+                        System.out.println("Write a message(Press enter to get back):");
+                        String message = this.scan.nextLine();
+                        if (message.equals("")) {
+                            break;
+                        }
+                        this.inbox.get(inboxIndex).addMessaging(this.user.get(userIndex).getName(), message);
+                    } else {
+                        this.inbox.add(
+                                new Inbox(this.user.get(userIndex).getName(),
+                                        this.products.get(productChoose - 1).getOwner()));
+                        int secondUserIndex = findUserIndex(this.products.get(productChoose - 1).getOwner());
+                        this.user.get(secondUserIndex).addInbox(this.user.get(userIndex).getName());
                     }
-                    this.inbox.get(inboxIndex).addMessaging(this.user.get(userIndex).getName(), message);
-                } else {
-                    this.inbox.add(
-                            new Inbox(this.user.get(userIndex).getName(),
-                                    this.products.get(productChoose - 1).getOwner()));
-                    int secondUserIndex = findUserIndex(this.products.get(productChoose - 1).getOwner());
-                    this.user.get(secondUserIndex).addInbox(this.user.get(userIndex).getName());
                 }
+            } else {
+                System.out.println("You can't be negotiate about the product because it has been sold");
             }
         } else {
             System.out.println("Choose the correct number please");
@@ -323,6 +333,17 @@ public class UserInterface {
         int index = 0;
         for (int i = 0; i < this.user.size(); i++) {
             if (this.user.get(i).getName().equals(name)) {
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
+
+    public int findProductIndex(String name) {
+        int index = 0;
+        for (int i = 0; i < this.products.size(); i++) {
+            if (this.products.get(i).getProductName().equals(name)) {
                 index = i;
                 break;
             }

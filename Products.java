@@ -38,7 +38,7 @@ public class Products {
                 + "\nProduct: " + this.productName
                 + "\nDescription: " + this.productDescribe
                 + "\nPrice: " + this.productPrice
-                + "\nStatus " + this.productStatus
+                + "\nStatus: " + this.productStatus
                 + "\n---------------------------------------";
     }
 }

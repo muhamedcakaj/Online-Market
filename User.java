@@ -69,10 +69,11 @@ public class User {
         LocalDate date = LocalDate.now();
         String history = date + "\n-----------------------------------------------";
         for (Products products : this.shoppingCart) {
-            history += "\nProduct name: " + products.getProductName() + "\nProduct Price: " + products.getProductPrice()
-                    + "\n";
+            history += "\nProduct name: " + products.getProductName() + "\nProduct Price: "
+                    + products.getProductPrice();
         }
-        history += calculateCartProductsPrice() + "\n-----------------------------------------------";
+        history += "\nTotal Price :" + calculateCartProductsPrice()
+                + "\n-----------------------------------------------";
         this.paymentHistory.add(history);
         this.shoppingCart.clear();
     }
