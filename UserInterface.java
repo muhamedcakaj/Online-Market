@@ -104,7 +104,9 @@ public class UserInterface {
             while (true) {
                 System.out.println("These are the currently products for sale");
                 for (int i = 0; i < this.products.size(); i++) {
-                    System.out.println(i + 1 + ".\n" + this.products.get(i));
+                    if (!(this.products.get(i).getOwner().equals(this.user.get(userIndex).getName()))) {
+                        System.out.println(i + 1 + ".\n" + this.products.get(i));
+                    }
                 }
                 addProductToShoppingCartMethod(userIndex);
                 break;
@@ -115,17 +117,22 @@ public class UserInterface {
 
     public void searchForProducts(int userIndex) {
         while (true) {
+            int productIndex = 0;
             System.out.println("Search:");
             String search = this.scan.nextLine();
             if (searchProductFoundTrueFalse(search)) {
-
                 for (int i = 0; i < this.products.size(); i++) {
                     if (this.products.get(i).getProductName().contains(search)) {
                         System.out.println(i + 1 + ".\n" + this.products.get(i));
+                        productIndex = i;
                     }
                 }
-                addProductToShoppingCartMethod(userIndex);
-                break;
+                if (!(this.products.get(productIndex).getOwner().equals(this.user.get(userIndex).getName()))) {
+                    addProductToShoppingCartMethod(userIndex);
+                    break;
+                } else {
+                    break;
+                }
             } else {
                 System.out.println("Product not found");
                 break;
@@ -194,27 +201,31 @@ public class UserInterface {
     }
 
     public void inbox(int userIndex) {
-        this.user.get(userIndex).printInboxRequest();
-        System.out.println("Choose one by number to continue conversation");
-        int number = Integer.valueOf(this.scan.nextLine());
-        if (number <= this.user.get(userIndex).getInboxList().size()) {
-            String secondUserName = this.user.get(userIndex).inboxFindUserName(number - 1);
-            int secondUserIndex = findUserIndex(secondUserName);
-            int inboxIndex = findMessageIndex(this.user.get(userIndex).getName(),
-                    this.user.get(secondUserIndex).getName());
-            int secondUserNameIndex = findUserIndex(secondUserName);
-            this.user.get(secondUserNameIndex).addInbox(this.user.get(userIndex).getName());
-            while (true) {
-                this.inbox.get(inboxIndex).printMessage();
-                System.out.println("Write a message(Press enter to get back):");
-                String message = this.scan.nextLine();
-                if (message.equals("")) {
-                    break;
-                }
-                this.inbox.get(inboxIndex).addMessaging(this.user.get(userIndex).getName(), message);
-            }
+        if (this.user.get(userIndex).getInboxList().isEmpty()) {
+            System.out.println("There are no message available");
         } else {
-            System.out.println("Choose the correct number please");
+            this.user.get(userIndex).printInboxRequest();
+            System.out.println("Choose one by number to continue conversation");
+            int number = Integer.valueOf(this.scan.nextLine());
+            if (number <= this.user.get(userIndex).getInboxList().size()) {
+                String secondUserName = this.user.get(userIndex).inboxFindUserName(number - 1);
+                int secondUserIndex = findUserIndex(secondUserName);
+                int inboxIndex = findMessageIndex(this.user.get(userIndex).getName(),
+                        this.user.get(secondUserIndex).getName());
+                int secondUserNameIndex = findUserIndex(secondUserName);
+                this.user.get(secondUserNameIndex).addInbox(this.user.get(userIndex).getName());
+                while (true) {
+                    this.inbox.get(inboxIndex).printMessage();
+                    System.out.println("Write a message(Press enter to get back):");
+                    String message = this.scan.nextLine();
+                    if (message.equals("")) {
+                        break;
+                    }
+                    this.inbox.get(inboxIndex).addMessaging(this.user.get(userIndex).getName(), message);
+                }
+            } else {
+                System.out.println("Choose the correct number please");
+            }
         }
     }
 
@@ -223,21 +234,25 @@ public class UserInterface {
     }
 
     public void checkout(int userIndex) {
-        System.out.println(this.user.get(userIndex));
-        System.out.println("Do you really want to checkout\n->Yes\n->No");
-        String checkout = this.scan.nextLine();
-        if (checkout.equalsIgnoreCase("Yes")) {
-            for (Products products : this.user.get(userIndex).getShoppingCartList()) {
-                int findUserIndex = findUserIndex(products.getOwner());
-                String notification = "Your product " + products.getProductName() + " has been sold to "
-                        + this.user.get(userIndex).getName();
-                this.user.get(findUserIndex).addNotifications(notification);
-                // ----------------------------------------------------------
-                int productIndex = findProductIndex(products.getProductName());
-                this.products.get(productIndex).setProductStatus();
+        if (this.user.get(userIndex).getShoppingCartList().isEmpty()) {
+            System.out.println("The shopping cart is empty you can't checkout");
+        } else {
+            System.out.println(this.user.get(userIndex));
+            System.out.println("Do you really want to checkout\n->Yes\n->No");
+            String checkout = this.scan.nextLine();
+            if (checkout.equalsIgnoreCase("Yes")) {
+                for (Products products : this.user.get(userIndex).getShoppingCartList()) {
+                    int findUserIndex = findUserIndex(products.getOwner());
+                    String notification = "Your product " + products.getProductName() + " has been sold to "
+                            + this.user.get(userIndex).getName();
+                    this.user.get(findUserIndex).addNotifications(notification);
+                    // ----------------------------------------------------------
+                    int productIndex = findProductIndex(products.getProductName());
+                    this.products.get(productIndex).setProductStatus();
+                }
+                this.user.get(userIndex).addHistoryPayment();
+                System.out.println("You have sucesfully checkout");
             }
-            this.user.get(userIndex).addHistoryPayment();
-            System.out.println("You have sucesfully checkout");
         }
     }
 
