@@ -1,3 +1,4 @@
+When the program starts, the user is presented with three options:Log In,Sign In,Exit 
 Our program provides a range of methods to enhance your shopping experience. Firstly, the "Products on Sale" method allows you to browse through all available products on our platform, enabling you to add them to your cart or negotiate prices with the respective sellers,this happens by writing to the owner of the product. The second method, "Search for Products," builds upon the first method, allowing you to search for specific products based on your preferences.
 
 The "View Shopping Cart" method is designed to display all products that you have added to your cart and provides the final calculated price of the items. Additionally, the "Add a Product for Sale" method allows you to add your own products to our platform, expanding your reach to potential buyers.
