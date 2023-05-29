@@ -214,6 +214,8 @@ public class UserInterface {
                         this.user.get(secondUserIndex).getName());
                 int secondUserNameIndex = findUserIndex(secondUserName);
                 this.user.get(secondUserNameIndex).addInbox(this.user.get(userIndex).getName());
+                this.user.get(userIndex).setInboxStatusToDelivered(this.user.get(secondUserIndex).getName());
+                this.user.get(secondUserNameIndex).setInboxStatusToNewChat(this.user.get(userIndex).getName());
                 while (true) {
                     this.inbox.get(inboxIndex).printMessage();
                     System.out.println("Write a message(Press enter to get back):");
@@ -305,6 +307,7 @@ public class UserInterface {
                                         this.products.get(productChoose - 1).getOwner()));
                         int secondUserIndex = findUserIndex(this.products.get(productChoose - 1).getOwner());
                         this.user.get(secondUserIndex).addInbox(this.user.get(userIndex).getName());
+                        this.user.get(secondUserIndex).setInboxStatusToNewChat(this.user.get(userIndex).getName());
                     }
                 }
             } else {

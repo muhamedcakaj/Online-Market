@@ -8,6 +8,7 @@ public class User {
     private ArrayList<String> notification;
     private ArrayList<String> paymentHistory;
     private ArrayList<String> inbox;
+    private ArrayList<String> InboxStatus;
 
     public User(String name, int password) {
         this.name = name;
@@ -16,6 +17,7 @@ public class User {
         this.notification = new ArrayList<>();
         this.paymentHistory = new ArrayList<>();
         this.inbox = new ArrayList<>();
+        this.InboxStatus = new ArrayList<>();
     }
 
     public String getName() {
@@ -87,12 +89,13 @@ public class User {
     public void addInbox(String name) {
         if (!(this.inbox.contains(name))) {
             this.inbox.add(name);
+            this.InboxStatus.add("default");
         }
     }
 
     public void printInboxRequest() {
         for (int i = 0; i < this.inbox.size(); i++) {
-            System.out.println(i + 1 + ". " + this.inbox.get(i));
+            System.out.println(i + 1 + ". " + this.inbox.get(i) + " (" + this.InboxStatus.get(i) + ")");
         }
     }
 
@@ -103,6 +106,28 @@ public class User {
             }
         }
         return null;
+    }
+
+    public void setInboxStatusToNewChat(String name) {
+        int index = 0;
+        for (int i = 0; i < this.inbox.size(); i++) {
+            if (this.inbox.get(i).equals(name)) {
+                index = i;
+                break;
+            }
+        }
+        this.InboxStatus.set(index, "New Chat");
+    }
+
+    public void setInboxStatusToDelivered(String name) {
+        int index = 0;
+        for (int i = 0; i < this.inbox.size(); i++) {
+            if (this.inbox.get(i).equals(name)) {
+                index = i;
+                break;
+            }
+        }
+        this.InboxStatus.set(index, "Delivered");
     }
 
     public String toString() {
